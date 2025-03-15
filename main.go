@@ -63,6 +63,15 @@ func main() {
 		return
 	}
 
+	err = updateDNSRecords(
+		client,
+		config.CloudflareZoneID,
+		ExistingIP.IPAddress,
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	fmt.Println("Your public IP address is:", ExistingIP.IPAddress)
 
 do:
@@ -70,7 +79,7 @@ do:
 		CurrentIP, err := getIP()
 		if err != nil {
 			fmt.Println(err)
-			break
+			continue do
 		}
 
 		if ExistingIP.IPAddress != CurrentIP.IPAddress {
@@ -101,8 +110,11 @@ do:
 
 func getIP() (*IPResponse, error) {
 
+	client := &http.Client{
+		Timeout: time.Second * 5,
+	}
 	var ip IPResponse
-	resp, err := http.Get("https://myip.wtf/json")
+	resp, err := client.Get("https://myip.wtf/json")
 	if err != nil {
 		return nil, err
 	}
