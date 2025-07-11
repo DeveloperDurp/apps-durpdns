@@ -4,7 +4,7 @@ go 1.24.1
 
 require (
 	github.com/caarlos0/env/v6 v6.10.1
-	github.com/cloudflare/cloudflare-go/v4 v4.1.0
+	github.com/cloudflare/cloudflare-go/v4 v4.6.0
 	github.com/joho/godotenv v1.5.1
 )
 
